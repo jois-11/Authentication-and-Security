@@ -3,7 +3,7 @@ const ejs = require('ejs')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const encrypt = require('mongoose-encryption')
-
+require('dotenv').config()
 const app = express()
 
 app.use(bodyParser.urlencoded({extended:true}))
@@ -18,8 +18,7 @@ const userSchema = new mongoose.Schema({
     password:String
 })
 
-const secret = "A little Secret"
-userSchema.plugin(encrypt,{secret:secret,encryptedFields:["password"]})
+userSchema.plugin(encrypt,{secret:process.env.SECRET,encryptedFields:["password"]})
 
 const User = new mongoose.model("Users",userSchema)
 
